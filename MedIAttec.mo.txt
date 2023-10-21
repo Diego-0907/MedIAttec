@@ -1,0 +1,26 @@
+import Debug "mo:base/Debug";
+import Text "mo:base/Text";
+
+actor SensorCanister {
+  var pHValue : Text = "";
+
+  public shared(query) func setpHValue(value : Text) : async () {
+    pHValue := value;
+  }
+
+  public query func getpHValue() : async Text {
+    return pHValue;
+  }
+}
+
+actor Main {
+  let sensorCanister = SensorCanister();
+
+  public shared(query) func receivepHValue(value : Text) : async () {
+    await sensorCanister.setpHValue(value);
+  }
+
+  public query func showpHValue() : async Text {
+    return await sensorCanister.getpHValue();
+  }
+}
